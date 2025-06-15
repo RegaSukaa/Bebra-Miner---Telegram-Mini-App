@@ -52,6 +52,18 @@
             border: 2px solid #fff;
             background-size: cover;
             background-position: center;
+            position: relative;
+        }
+        
+        .avatar-online {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            background: #00ff00;
+            border-radius: 50%;
+            border: 2px solid #1a2a6c;
         }
         
         .user-info {
@@ -71,6 +83,12 @@
             border-radius: 10px;
             font-size: 12px;
             margin-left: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .prefix:active {
+            transform: scale(0.95);
         }
         
         .user-id {
@@ -111,6 +129,18 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
         }
         
         .section-title {
@@ -136,12 +166,18 @@
             border-radius: 12px;
             padding: 15px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
         .stat-card:active {
             transform: scale(0.98);
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
         }
         
         .stat-value {
@@ -173,7 +209,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s, opacity 0.3s;
+            transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
         
@@ -181,32 +217,43 @@
             transform: scale(0.98);
         }
         
+        .miner-card:hover {
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
+        }
+        
         .miner-card.common {
             border: 2px solid #C0C0C0;
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(128, 128, 128, 0.1));
         }
         
         .miner-card.uncommon {
             border: 2px solid #00FF00;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 128, 0, 0.1));
         }
         
         .miner-card.rare {
             border: 2px solid #0000FF;
+            background: linear-gradient(135deg, rgba(0, 0, 255, 0.1), rgba(0, 0, 128, 0.1));
         }
         
         .miner-card.epic {
             border: 2px solid #800080;
+            background: linear-gradient(135deg, rgba(128, 0, 128, 0.1), rgba(75, 0, 130, 0.1));
         }
         
         .miner-card.legendary {
             border: 2px solid #FFA500;
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 140, 0, 0.1));
         }
         
         .miner-card.mythical {
             border: 2px solid #FF0000;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(178, 34, 34, 0.1));
         }
         
         .miner-card.exclusive {
             border: 2px solid #00FFFF;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 191, 255, 0.1));
         }
         
         .miner-icon {
@@ -217,11 +264,21 @@
         .miner-name {
             font-weight: bold;
             margin-bottom: 5px;
+            font-size: 14px;
         }
         
         .miner-power {
             color: #00ff9d;
-            font-size: 14px;
+            font-size: 13px;
+        }
+        
+        .miner-rarity {
+            font-size: 12px;
+            margin-top: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 2px 5px;
+            display: inline-block;
         }
         
         .miner-count {
@@ -256,6 +313,7 @@
             padding: 10px;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 14px;
         }
         
         .shop-tab.active {
@@ -331,8 +389,26 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .btn:hover::after {
+            transform: rotate(30deg) translate(50%, 50%);
         }
         
         .btn:active {
@@ -358,6 +434,7 @@
             padding: 10px;
             backdrop-filter: blur(10px);
             z-index: 100;
+            border-top: 1px solid rgba(0, 198, 255, 0.3);
         }
         
         .nav-item {
@@ -397,6 +474,11 @@
             font-size: 12px;
             color: #a0a0ff;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dev-btn:hover {
+            background: rgba(255, 0, 0, 0.3);
         }
         
         .modal {
@@ -422,6 +504,7 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
         
         .modal-title {
@@ -438,6 +521,11 @@
             font-size: 24px;
             color: #a0a0ff;
             cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
         }
         
         .bug-report {
@@ -490,6 +578,16 @@
             100% { transform: scale(1); }
         }
         
+        @keyframes coins {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .highlight {
             animation: pulse 2s infinite;
         }
@@ -514,6 +612,12 @@
             border-radius: 10px;
             padding: 10px;
             text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .miner-grid-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .miner-grid-name {
@@ -537,22 +641,230 @@
             border-radius: 10px;
             z-index: 1000;
             display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .coins-animation {
+            position: absolute;
+            font-size: 20px;
+            color: #ffd700;
+            pointer-events: none;
+            animation: coins 1s forwards;
+        }
+        
+        .achievement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .achievement-info {
+            flex: 1;
+        }
+        
+        .achievement-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .achievement-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border-radius: 5px;
+        }
+        
+        .achievement-reward {
+            background: rgba(0, 198, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .daily-bonus {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .bonus-day {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bonus-day.active {
+            background: rgba(0, 198, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+        }
+        
+        .bonus-day.received {
+            background: rgba(0, 255, 157, 0.3);
+        }
+        
+        .bonus-day .day {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .bonus-day .reward {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .bonus-today {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 0, 0, 0.5);
+            font-size: 10px;
+            padding: 2px;
+        }
+        
+        .prefix-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .prefix-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .prefix-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .prefix-item.active {
+            background: rgba(0, 198, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+        }
+        
+        .prefix-name {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .prefix-action {
+            background: rgba(0, 198, 255, 0.3);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .prefix-action:active {
+            background: rgba(0, 198, 255, 0.5);
+        }
+        
+        .welcome-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: welcomeOut 1s forwards 2s;
+        }
+        
+        @keyframes welcomeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        
+        .welcome-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff8a00, #e52e71, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #a0a0ff;
+            text-align: center;
+            max-width: 80%;
+        }
+        
+        .logo {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: bounce 1.5s infinite alternate;
         }
     </style>
 </head>
 <body>
+    <!-- Приветственная анимация -->
+    <div class="welcome-animation">
+        <div class="logo">⛏️</div>
+        <h1 class="welcome-title">Bebra Miner</h1>
+        <p class="welcome-subtitle">Самый прибыльный майнинг в Telegram</p>
+    </div>
+    
     <div class="container">
         <!-- Шапка профиля -->
         <div class="header">
             <div class="avatar" id="user-avatar">
                 <i class="fas fa-user" id="avatar-icon"></i>
+                <div class="avatar-online"></div>
             </div>
             <div class="user-info">
                 <div class="user-name">
-                    <span id="username">Загрузка...</span> 
+                    <span id="username">Иван Иванов</span> 
                     <span class="prefix" id="user-prefix">Новичок</span>
                 </div>
-                <div class="user-id">ID: <span id="user-id">...</span></div>
+                <div class="user-id">ID: <span id="user-id">789456</span> | @bebra_miner</div>
             </div>
             <div class="balance-container">
                 <div class="balance">
@@ -646,8 +958,21 @@
 
         <div class="tab-content" id="other-tab">
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-cog"></i> Другие настройки</h2>
-                <p style="text-align: center; margin: 20px 0;">Раздел в разработке. Скоро здесь появятся новые функции!</p>
+                <h2 class="section-title"><i class="fas fa-cog"></i> Другое</h2>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-trophy"></i> Достижения</h2>
+                    <div class="achievement-list" id="achievements-list">
+                        <!-- Достижения будут здесь -->
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-calendar-day"></i> Ежедневный бонус</h2>
+                    <div class="daily-bonus" id="daily-bonus">
+                        <!-- Ежедневные бонусы будут здесь -->
+                    </div>
+                </div>
                 
                 <div class="dev-btn" id="dev-btn">
                     <i class="fas fa-lock"></i> Для разработчиков
@@ -724,6 +1049,18 @@
         </div>
     </div>
     
+    <!-- Модальное окно префиксов -->
+    <div class="modal" id="prefixes-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Ваши префиксы</h2>
+            
+            <div class="prefix-list" id="prefixes-list-container">
+                <!-- Префиксы пользователя будут здесь -->
+            </div>
+        </div>
+    </div>
+    
     <!-- Уведомление -->
     <div class="notification" id="notification"></div>
 
@@ -731,13 +1068,13 @@
         // Состояние игры
         const gameState = {
             userId: Math.floor(Math.random() * 1000000),
-            username: "Игрок",
-            firstName: "Игрок",
+            username: "Иван Иванов",
+            firstName: "Иван",
             photoUrl: "",
             balance: { coins: 0, bucks: 0 },
             miners: [],
-            prefix: null,
-            unlockedPrefixes: [],
+            prefix: 'prefix1',
+            unlockedPrefixes: ['prefix1'],
             hashrate: 0,
             exchangeRate: 0.85,
             exchangeHistory: [0.75, 0.78, 0.82, 0.80, 0.85, 0.83, 0.87],
@@ -746,7 +1083,24 @@
             eventShopActive: false,
             lastMiningTime: Date.now(),
             lastShopUpdate: Date.now(),
-            lastExchangeUpdate: Date.now()
+            lastExchangeUpdate: Date.now(),
+            achievements: [
+                { id: 'ach1', name: 'Первый майнер', description: 'Купите свой первый майнер', progress: 0, goal: 1, reward: 50, received: false },
+                { id: 'ach2', name: 'Начинающий майнер', description: 'Заработайте 100 коинов', progress: 0, goal: 100, reward: 100, received: false },
+                { id: 'ach3', name: 'Богач', description: 'Получите 500 баксов', progress: 0, goal: 500, reward: 200, received: false },
+                { id: 'ach4', name: 'Коллекционер', description: 'Купите 5 майнеров', progress: 0, goal: 5, reward: 150, received: false }
+            ],
+            dailyBonuses: [
+                { day: 1, reward: 10, received: false },
+                { day: 2, reward: 20, received: false },
+                { day: 3, reward: 30, received: false },
+                { day: 4, reward: 40, received: false },
+                { day: 5, reward: 50, received: false },
+                { day: 6, reward: 75, received: false },
+                { day: 7, reward: 100, received: false }
+            ],
+            lastLogin: null,
+            consecutiveLogins: 0
         };
         
         // Каталог майнеров
@@ -765,22 +1119,7 @@
             { id: 'miner12', name: 'BebraPro', power: 18.0, rarity: 'rare', icon: 'fa-laptop', price: 180 },
             { id: 'miner13', name: 'BebraMax', power: 32.0, rarity: 'epic', icon: 'fa-server', price: 350 },
             { id: 'miner14', name: 'BebraNano', power: 0.5, rarity: 'common', icon: 'fa-microchip', price: 5 },
-            { id: 'miner15', name: 'BebraTitan', power: 55.0, rarity: 'legendary', icon: 'fa-database', price: 800 },
-            { id: 'miner16', name: 'BebraSolar', power: 7.0, rarity: 'uncommon', icon: 'fa-sun', price: 65 },
-            { id: 'miner17', name: 'BebraWind', power: 6.5, rarity: 'uncommon', icon: 'fa-wind', price: 60 },
-            { id: 'miner18', name: 'BebraHydro', power: 9.0, rarity: 'rare', icon: 'fa-water', price: 90 },
-            { id: 'miner19', name: 'BebraFusion', power: 42.0, rarity: 'mythical', icon: 'fa-atom', price: 650 },
-            { id: 'miner20', name: 'BebraAI', power: 38.0, rarity: 'epic', icon: 'fa-robot', price: 400 },
-            { id: 'miner21', name: 'BebraSpace', power: 28.0, rarity: 'rare', icon: 'fa-rocket', price: 280 },
-            { id: 'miner22', name: 'BebraOcean', power: 12.0, rarity: 'uncommon', icon: 'fa-water', price: 110 },
-            { id: 'miner23', name: 'BebraMountain', power: 16.0, rarity: 'rare', icon: 'fa-mountain', price: 160 },
-            { id: 'miner24', name: 'BebraForest', power: 8.0, rarity: 'uncommon', icon: 'fa-tree', price: 70 },
-            { id: 'miner25', name: 'BebraDesert', power: 14.0, rarity: 'rare', icon: 'fa-sun', price: 130 },
-            { id: 'miner26', name: 'BebraArctic', power: 10.0, rarity: 'uncommon', icon: 'fa-snowflake', price: 95 },
-            { id: 'miner27', name: 'BebraVolcano', power: 33.0, rarity: 'epic', icon: 'fa-fire', price: 330 },
-            { id: 'miner28', name: 'BebraGalaxy', power: 50.0, rarity: 'legendary', icon: 'fa-star', price: 750 },
-            { id: 'miner29', name: 'BebraUniverse', power: 65.0, rarity: 'mythical', icon: 'fa-globe-europe', price: 900 },
-            { id: 'miner30', name: 'BebraInfinity', power: 80.0, rarity: 'exclusive', icon: 'fa-infinity', price: 1200 }
+            { id: 'miner15', name: 'BebraTitan', power: 55.0, rarity: 'legendary', icon: 'fa-database', price: 800 }
         ];
         
         // Каталог префиксов
@@ -819,6 +1158,12 @@
             
             // Запуск игрового цикла
             startGameLoop();
+            
+            // Проверка ежедневного бонуса
+            checkDailyBonus();
+            
+            // Обновление достижений
+            updateAchievements();
         });
         
         // Загрузка состояния игры
@@ -832,11 +1177,13 @@
                 gameState.lastMiningTime = new Date(gameState.lastMiningTime);
                 gameState.lastShopUpdate = new Date(gameState.lastShopUpdate);
                 gameState.lastExchangeUpdate = new Date(gameState.lastExchangeUpdate);
+                if (gameState.lastLogin) gameState.lastLogin = new Date(gameState.lastLogin);
             } else {
                 // Начальные настройки для нового игрока
                 gameState.miners = [{ id: 'miner1', count: 1, active: true }];
                 gameState.prefix = 'prefix1';
                 gameState.unlockedPrefixes = ['prefix1'];
+                gameState.balance.bucks = 5; // Начальные баксы для первого майнера
             }
         }
         
@@ -847,7 +1194,6 @@
         
         // Настройка пользователя
         function setupUser() {
-            // В реальном приложении здесь будет интеграция с Telegram
             document.getElementById('username').textContent = gameState.username;
             document.getElementById('user-id').textContent = gameState.userId;
             
@@ -886,6 +1232,12 @@
             
             // Обновление графика
             updateExchangeChart();
+            
+            // Обновление достижений
+            updateAchievementsUI();
+            
+            // Обновление ежедневных бонусов
+            updateDailyBonusesUI();
         }
         
         // Расчет хешрейта
@@ -946,6 +1298,7 @@
                 <div class="miner-icon"><i class="fas ${minerData.icon}"></i></div>
                 <div class="miner-name">${minerData.name}</div>
                 <div class="miner-power">${minerData.power} коинов/мин</div>
+                <div class="miner-rarity">${getRarityName(minerData.rarity)}</div>
                 <div class="miner-count">${count}</div>
             `;
             
@@ -972,8 +1325,8 @@
                 !gameState.unlockedPrefixes.includes(p.id) && p.id !== gameState.prefix
             );
             
-            // Выбираем 3 случайных префикса
-            for (let i = 0; i < 3; i++) {
+            // Выбираем 4 случайных префикса
+            for (let i = 0; i < 4; i++) {
                 if (availablePrefixes.length === 0) break;
                 const randomIndex = Math.floor(Math.random() * availablePrefixes.length);
                 gameState.shopPrefixes.push(availablePrefixes[randomIndex]);
@@ -997,14 +1350,11 @@
                     <div class="miner-icon"><i class="fas ${miner.icon}"></i></div>
                     <div class="miner-name">${miner.name}</div>
                     <div class="miner-power">${miner.power} коинов/мин</div>
+                    <div class="miner-rarity">${getRarityName(miner.rarity)}</div>
                     <div class="miner-details">
                         <div class="detail-item">
                             <small>Цена</small>
                             <div>${miner.price} <i class="fas fa-dollar-sign bucks"></i></div>
-                        </div>
-                        <div class="detail-item">
-                            <small>Редкость</small>
-                            <div>${getRarityName(miner.rarity)}</div>
                         </div>
                     </div>
                     <button class="btn buy-miner-btn" data-id="${miner.id}" ${gameState.balance.bucks < miner.price ? 'disabled' : ''}>Купить</button>
@@ -1120,15 +1470,25 @@
                 gameState.miners.push({ id: minerId, count: 1, active: true });
             }
             
+            // Анимация покупки
+            createCoinsAnimation(miner.price, 'bucks');
+            
             showNotification(`Куплен майнер: ${miner.name}!`);
             saveGameState();
             updateUI();
+            updateAchievements();
         }
         
         // Покупка префикса
         function buyPrefix(prefixId) {
             const prefix = prefixesCatalog.find(p => p.id === prefixId);
             if (!prefix) return;
+            
+            // Проверка, что префикс еще не куплен
+            if (gameState.unlockedPrefixes.includes(prefixId)) {
+                showNotification('Вы уже купили этот префикс!');
+                return;
+            }
             
             if (gameState.balance.bucks < prefix.price) {
                 showNotification('Недостаточно Bebra Баксов!');
@@ -1139,14 +1499,12 @@
             gameState.balance.bucks -= prefix.price;
             
             // Добавляем префикс
-            if (!gameState.unlockedPrefixes.includes(prefixId)) {
-                gameState.unlockedPrefixes.push(prefixId);
-            }
+            gameState.unlockedPrefixes.push(prefixId);
             
-            // Устанавливаем префикс
-            gameState.prefix = prefixId;
+            // Анимация покупки
+            createCoinsAnimation(prefix.price, 'bucks');
             
-            showNotification(`Установлен префикс: ${prefix.name}!`);
+            showNotification(`Куплен префикс: ${prefix.name}!`);
             saveGameState();
             updateUI();
         }
@@ -1168,9 +1526,14 @@
             gameState.balance.coins -= amount;
             gameState.balance.bucks += bucks;
             
+            // Анимация обмена
+            createCoinsAnimation(amount, 'coins');
+            createCoinsAnimation(bucks, 'bucks', true);
+            
             showNotification(`Обменено ${amount.toFixed(2)} коинов на ${bucks.toFixed(2)} баксов!`);
             saveGameState();
             updateUI();
+            updateAchievements();
         }
         
         // Переключение активности майнера
@@ -1180,6 +1543,9 @@
                 miner.active = !miner.active;
                 saveGameState();
                 updateUI();
+                showNotification(miner.active ? 
+                    `Майнер активирован!` : 
+                    `Майнер деактивирован!`);
             }
         }
         
@@ -1207,6 +1573,206 @@
             });
             
             document.getElementById('miners-details-modal').style.display = 'flex';
+        }
+        
+        // Показать префиксы
+        function showPrefixes() {
+            const container = document.getElementById('prefixes-list-container');
+            container.innerHTML = '';
+            
+            prefixesCatalog.forEach(prefix => {
+                if (gameState.unlockedPrefixes.includes(prefix.id)) {
+                    const item = document.createElement('div');
+                    item.className = 'prefix-item';
+                    if (gameState.prefix === prefix.id) item.classList.add('active');
+                    
+                    item.innerHTML = `
+                        <div class="prefix-name">${prefix.name}</div>
+                        <button class="prefix-action" data-id="${prefix.id}">
+                            ${gameState.prefix === prefix.id ? 'Активен' : 'Выбрать'}
+                        </button>
+                    `;
+                    
+                    container.appendChild(item);
+                }
+            });
+            
+            document.getElementById('prefixes-modal').style.display = 'flex';
+        }
+        
+        // Выбор префикса
+        function selectPrefix(prefixId) {
+            if (gameState.unlockedPrefixes.includes(prefixId)) {
+                gameState.prefix = prefixId;
+                saveGameState();
+                updateUI();
+                showNotification(`Префикс изменен!`);
+                document.getElementById('prefixes-modal').style.display = 'none';
+            }
+        }
+        
+        // Проверка ежедневного бонуса
+        function checkDailyBonus() {
+            const today = new Date().toDateString();
+            
+            // Если игрок зашел впервые
+            if (!gameState.lastLogin) {
+                gameState.lastLogin = new Date();
+                gameState.consecutiveLogins = 1;
+                giveDailyBonus(0); // Даем бонус за первый день
+                return;
+            }
+            
+            const lastLoginDate = new Date(gameState.lastLogin).toDateString();
+            
+            // Если игрок зашел сегодня
+            if (today === lastLoginDate) return;
+            
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            yesterday.setHours(0, 0, 0, 0);
+            
+            // Если игрок зашел вчера, увеличиваем счетчик
+            if (new Date(gameState.lastLogin).getTime() === yesterday.getTime()) {
+                gameState.consecutiveLogins++;
+            } else {
+                // Если пропустил день, сбрасываем счетчик
+                gameState.consecutiveLogins = 1;
+            }
+            
+            // Определяем день для бонуса (циклически)
+            const bonusDay = (gameState.consecutiveLogins - 1) % 7;
+            giveDailyBonus(bonusDay);
+            
+            gameState.lastLogin = new Date();
+            saveGameState();
+        }
+        
+        // Выдача ежедневного бонуса
+        function giveDailyBonus(dayIndex) {
+            if (dayIndex < 0 || dayIndex > 6) return;
+            
+            const bonus = gameState.dailyBonuses[dayIndex];
+            if (bonus && !bonus.received) {
+                gameState.balance.bucks += bonus.reward;
+                bonus.received = true;
+                showNotification(`Ежедневный бонус: +${bonus.reward} баксов!`);
+                saveGameState();
+                updateUI();
+            }
+        }
+        
+        // Обновление достижений
+        function updateAchievements() {
+            // Обновляем прогресс достижений
+            gameState.achievements.forEach(ach => {
+                if (ach.received) return;
+                
+                switch(ach.id) {
+                    case 'ach1': // Первый майнер
+                        ach.progress = gameState.miners.length > 0 ? 1 : 0;
+                        break;
+                    case 'ach2': // Заработать 100 коинов
+                        ach.progress = Math.min(ach.goal, gameState.balance.coins);
+                        break;
+                    case 'ach3': // Получить 500 баксов
+                        ach.progress = Math.min(ach.goal, gameState.balance.bucks);
+                        break;
+                    case 'ach4': // Купить 5 майнеров
+                        ach.progress = Math.min(ach.goal, gameState.miners.reduce((sum, miner) => sum + miner.count, 0));
+                        break;
+                }
+                
+                // Проверяем, достигнуто ли достижение
+                if (ach.progress >= ach.goal && !ach.received) {
+                    ach.received = true;
+                    gameState.balance.bucks += ach.reward;
+                    showNotification(`Достижение "${ach.name}" получено! Награда: ${ach.reward} баксов`);
+                }
+            });
+            
+            saveGameState();
+        }
+        
+        // Обновление интерфейса достижений
+        function updateAchievementsUI() {
+            const container = document.getElementById('achievements-list');
+            container.innerHTML = '';
+            
+            gameState.achievements.forEach(ach => {
+                const card = document.createElement('div');
+                card.className = 'achievement-card';
+                
+                const progressPercent = (ach.progress / ach.goal) * 100;
+                
+                card.innerHTML = `
+                    <div class="achievement-icon">
+                        <i class="fas ${ach.received ? 'fa-trophy' : 'fa-star'}"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">${ach.name}</div>
+                        <div class="achievement-description">${ach.description}</div>
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
+                        </div>
+                    </div>
+                    <div class="achievement-reward">
+                        +${ach.reward} <i class="fas fa-dollar-sign"></i>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Обновление интерфейса ежедневных бонусов
+        function updateDailyBonusesUI() {
+            const container = document.getElementById('daily-bonus');
+            container.innerHTML = '';
+            
+            const today = new Date().toDateString();
+            const lastLoginDate = gameState.lastLogin ? new Date(gameState.lastLogin).toDateString() : null;
+            const todayIndex = (gameState.consecutiveLogins - 1) % 7;
+            
+            gameState.dailyBonuses.forEach((bonus, index) => {
+                const day = document.createElement('div');
+                day.className = 'bonus-day';
+                
+                if (bonus.received) day.classList.add('received');
+                if (index === todayIndex && today === lastLoginDate) day.classList.add('active');
+                
+                day.innerHTML = `
+                    <div class="day">День ${bonus.day}</div>
+                    <div class="reward">+${bonus.reward} <i class="fas fa-dollar-sign"></i></div>
+                    ${index === todayIndex && today === lastLoginDate ? '<div class="bonus-today">Сегодня</div>' : ''}
+                `;
+                
+                container.appendChild(day);
+            });
+        }
+        
+        // Создание анимации монет
+        function createCoinsAnimation(amount, type, isPositive = true) {
+            const container = document.querySelector('.container');
+            const coinsCount = Math.min(10, Math.floor(amount / 10));
+            
+            for (let i = 0; i < coinsCount; i++) {
+                const coin = document.createElement('div');
+                coin.className = 'coins-animation';
+                coin.innerHTML = `<i class="fas ${type === 'coins' ? 'fa-coins' : 'fa-dollar-sign'}"></i>`;
+                coin.style.left = `${Math.random() * 100}%`;
+                coin.style.top = `${Math.random() * 100}%`;
+                coin.style.opacity = '1';
+                coin.style.fontSize = `${Math.random() * 10 + 15}px`;
+                coin.style.color = type === 'coins' ? '#ffd700' : '#00ff9d';
+                coin.style.animation = `coins ${Math.random() * 0.5 + 0.5}s forwards`;
+                
+                container.appendChild(coin);
+                
+                setTimeout(() => {
+                    coin.remove();
+                }, 1000);
+            }
         }
         
         // Настройка обработчиков событий
@@ -1243,23 +1809,78 @@
                 });
             });
             
-            // Модальное окно разработчика
-            const devModal = document.getElementById('dev-modal');
-            const devBtn = document.getElementById('dev-btn');
+            // Модальные окна
             const closeModals = document.querySelectorAll('.close-modal');
-            const devCodeInput = document.getElementById('dev-code');
-            const devTools = document.getElementById('dev-tools');
-            
-            devBtn.addEventListener('click', function() {
-                devModal.style.display = 'flex';
-            });
-            
             closeModals.forEach(close => {
                 close.addEventListener('click', function() {
                     document.querySelectorAll('.modal').forEach(modal => {
                         modal.style.display = 'none';
                     });
                 });
+            });
+            
+            // Клик по префиксу в профиле
+            document.getElementById('user-prefix').addEventListener('click', showPrefixes);
+            
+            // Инструменты разработчика
+            setupDevTools();
+            
+            // Покупка майнеров
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('buy-miner-btn')) {
+                    const minerId = e.target.dataset.id;
+                    buyMiner(minerId);
+                }
+                
+                if (e.target.classList.contains('buy-prefix-btn')) {
+                    const prefixId = e.target.dataset.id;
+                    buyPrefix(prefixId);
+                }
+                
+                if (e.target.classList.contains('prefix-action')) {
+                    const prefixId = e.target.dataset.id;
+                    selectPrefix(prefixId);
+                }
+            });
+            
+            // Переключение активности майнера
+            document.getElementById('user-miners-list').addEventListener('click', function(e) {
+                const minerCard = e.target.closest('.miner-card');
+                if (minerCard) {
+                    const minerId = minerCard.dataset.id;
+                    toggleMiner(minerId);
+                }
+            });
+            
+            // Обмен коинов
+            document.getElementById('max-coins').addEventListener('click', function() {
+                document.getElementById('exchange-amount').value = gameState.balance.coins.toFixed(2);
+            });
+            
+            document.getElementById('exchange-all').addEventListener('click', function() {
+                exchangeCoins(gameState.balance.coins);
+            });
+            
+            document.getElementById('exchange-btn').addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('exchange-amount').value);
+                if (!isNaN(amount)) {
+                    exchangeCoins(amount);
+                }
+            });
+            
+            // Показать детали майнеров
+            document.getElementById('total-miners').addEventListener('click', showMinersDetails);
+        }
+        
+        // Настройка инструментов разработчика
+        function setupDevTools() {
+            const devModal = document.getElementById('dev-modal');
+            const devBtn = document.getElementById('dev-btn');
+            const devCodeInput = document.getElementById('dev-code');
+            const devTools = document.getElementById('dev-tools');
+            
+            devBtn.addEventListener('click', function() {
+                devModal.style.display = 'flex';
             });
             
             // Проверка кода разработчика
@@ -1277,6 +1898,7 @@
                 saveGameState();
                 updateUI();
                 showNotification('+100 коинов!');
+                createCoinsAnimation(100, 'coins', true);
             });
             
             document.getElementById('add-bucks').addEventListener('click', function() {
@@ -1284,6 +1906,7 @@
                 saveGameState();
                 updateUI();
                 showNotification('+100 баксов!');
+                createCoinsAnimation(100, 'bucks', true);
             });
             
             document.getElementById('remove-coins').addEventListener('click', function() {
@@ -1318,47 +1941,6 @@
                 showNotification('Ивентовый магазин закрыт!');
                 saveGameState();
             });
-            
-            // Покупка майнеров
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('buy-miner-btn')) {
-                    const minerId = e.target.dataset.id;
-                    buyMiner(minerId);
-                }
-                
-                if (e.target.classList.contains('buy-prefix-btn')) {
-                    const prefixId = e.target.dataset.id;
-                    buyPrefix(prefixId);
-                }
-            });
-            
-            // Переключение активности майнера
-            document.getElementById('user-miners-list').addEventListener('click', function(e) {
-                const minerCard = e.target.closest('.miner-card');
-                if (minerCard) {
-                    const minerId = minerCard.dataset.id;
-                    toggleMiner(minerId);
-                }
-            });
-            
-            // Обмен коинов
-            document.getElementById('max-coins').addEventListener('click', function() {
-                document.getElementById('exchange-amount').value = gameState.balance.coins.toFixed(2);
-            });
-            
-            document.getElementById('exchange-all').addEventListener('click', function() {
-                exchangeCoins(gameState.balance.coins);
-            });
-            
-            document.getElementById('exchange-btn').addEventListener('click', function() {
-                const amount = parseFloat(document.getElementById('exchange-amount').value);
-                if (!isNaN(amount)) {
-                    exchangeCoins(amount);
-                }
-            });
-            
-            // Показать детали майнеров
-            document.getElementById('total-miners').addEventListener('click', showMinersDetails);
         }
         
         // Запуск игрового цикла
@@ -1375,10 +1957,12 @@
                     
                     if (coinsEarned > 0) {
                         showNotification(`+${coinsEarned.toFixed(2)} коинов за ${minutesPassed.toFixed(1)} мин!`);
+                        createCoinsAnimation(coinsEarned, 'coins', true);
                     }
                     
                     saveGameState();
                     updateUI();
+                    updateAchievements();
                 }
                 
                 // Обновление магазина
