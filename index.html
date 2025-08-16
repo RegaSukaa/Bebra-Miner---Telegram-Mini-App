@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bebra Miner</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Thunder Market</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,2294 +12,755 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #121212;
+            --gold: #d4af37;
+            --gold-light: #f1e6c1;
+            --text-light: #f5f5f5;
+            --text-gray: #b0b0b0;
+            --accent: #1e1e1e;
+            --success: #4caf50;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2d388a, #4a4b8c);
-            color: white;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             min-height: 100vh;
-            padding-bottom: 70px;
+            padding: 15px;
+            position: relative;
             overflow-x: hidden;
         }
-        
-        .container {
-            max-width: 500px;
+
+        .app-container {
+            max-width: 480px;
             margin: 0 auto;
-            padding: 15px;
+            position: relative;
+            min-height: 100vh;
         }
-        
-        .header {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 15px;
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             margin-bottom: 20px;
+        }
+
+        .app-logo {
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
+            gap: 10px;
         }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ff8a00, #e52e71, #00c6ff);
+
+        .app-logo i {
+            color: var(--gold);
+            font-size: 24px;
         }
-        
-        .avatar {
-            width: 60px;
-            height: 60px;
+
+        .app-logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--gold), #f1e6c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-right: 15px;
-            border: 2px solid #fff;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .avatar-online {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 15px;
-            height: 15px;
-            background: #00ff00;
-            border-radius: 50%;
-            border: 2px solid #1a2a6c;
-        }
-        
-        .user-info {
-            flex: 1;
-        }
-        
-        .user-name {
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .prefix {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            margin-left: 8px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: var(--transition);
         }
-        
-        .prefix:active {
-            transform: scale(0.95);
+
+        .action-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
         }
-        
-        .user-id {
-            font-size: 12px;
-            color: #a0a0ff;
-            margin-top: 3px;
+
+        .tabs {
             display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-        
-        .user-id span {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 5px;
-            border-radius: 5px;
-        }
-        
-        .balance-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-        
-        .balance {
-            display: flex;
-            align-items: center;
-            margin: 3px 0;
-        }
-        
-        .balance-icon {
-            margin-right: 5px;
-            font-size: 16px;
-        }
-        
-        .coins {
-            color: #ffd700;
-        }
-        
-        .bucks {
-            color: #00ff9d;
-        }
-        
-        .section {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 20px;
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
-        
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
         }
-        
+
+        .tab.active {
+            color: var(--gold);
+        }
+
+        .tab-indicator {
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            background: rgba(212, 175, 55, 0.15);
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .section-title {
             font-size: 20px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: #00c6ff;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-card:active {
-            transform: scale(0.98);
-        }
-        
-        .stat-card:hover {
-            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 5px 0;
-            color: #00ff9d;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #a0a0ff;
-        }
-        
-        .miners-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-        
-        .miner-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-        
-        .miner-card:active {
-            transform: scale(0.98);
-        }
-        
-        .miner-card:hover {
-            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
-        }
-        
-        .miner-card.common {
-            border: 2px solid #C0C0C0;
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(128, 128, 128, 0.1));
-        }
-        
-        .miner-card.uncommon {
-            border: 2px solid #00FF00;
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 128, 0, 0.1));
-        }
-        
-        .miner-card.rare {
-            border: 2px solid #0000FF;
-            background: linear-gradient(135deg, rgba(0, 0, 255, 0.1), rgba(0, 0, 128, 0.1));
-        }
-        
-        .miner-card.epic {
-            border: 2px solid #800080;
-            background: linear-gradient(135deg, rgba(128, 0, 128, 0.1), rgba(75, 0, 130, 0.1));
-        }
-        
-        .miner-card.legendary {
-            border: 2px solid #FFA500;
-            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1), rgba(255, 140, 0, 0.1));
-        }
-        
-        .miner-card.mythical {
-            border: 2px solid #FF0000;
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(178, 34, 34, 0.1));
-        }
-        
-        .miner-card.exclusive {
-            border: 2px solid #00FFFF;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 191, 255, 0.1));
-        }
-        
-        .miner-card.event {
-            border: 3px dashed #ff00ff;
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(128, 0, 128, 0.1));
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        }
-        
-        .miner-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-        
-        .miner-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .miner-power {
-            color: #00ff9d;
-            font-size: 13px;
-        }
-        
-        .miner-rarity {
-            font-size: 12px;
-            margin-top: 5px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 2px 5px;
-            display: inline-block;
-        }
-        
-        .miner-price {
-            font-size: 14px;
-            margin: 8px 0;
-            font-weight: bold;
-            color: #00ff9d;
-        }
-        
-        .miner-count {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .miner-inactive {
-            opacity: 0.6;
-        }
-        
-        .shop-tabs {
-            display: flex;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .shop-tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-size: 14px;
-            min-width: 80px;
-        }
-        
-        .shop-tab.active {
-            background: rgba(0, 198, 255, 0.3);
-        }
-        
-        .shop-content {
-            display: none;
-        }
-        
-        .shop-content.active {
-            display: block;
-        }
-        
-        .exchange-rate {
-            text-align: center;
-            font-size: 24px;
-            margin: 20px 0;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .chart-container {
-            height: 200px;
-            margin: 20px 0;
-        }
-        
-        .exchange-form {
-            display: flex;
-            flex-direction: column;
             gap: 10px;
         }
-        
-        .input-group {
-            display: flex;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
+
+        .section-title i {
+            color: var(--gold);
         }
-        
-        .input-group input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 15px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        .input-group input:focus {
-            outline: none;
-        }
-        
-        .input-group button {
-            background: rgba(0, 198, 255, 0.5);
-            border: none;
-            color: white;
-            padding: 0 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .input-group button:active {
-            background: rgba(0, 198, 255, 0.8);
-        }
-        
-        .btn {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-            text-align: center;
+
+        .balance-card {
+            background: linear-gradient(135deg, var(--bg-card), #1a1a1a);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
             position: relative;
             overflow: hidden;
         }
-        
-        .btn::after {
-            content: '';
+
+        .balance-card::before {
+            content: "";
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(30deg);
-            transition: all 0.6s;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            z-index: 0;
         }
-        
-        .btn:hover::after {
-            transform: rotate(30deg) translate(50%, 50%);
+
+        .balance-info {
+            position: relative;
+            z-index: 1;
         }
-        
-        .btn:active {
-            transform: scale(0.98);
-        }
-        
-        .btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-        }
-        
-        .btn-exchange-all {
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
-        }
-        
-        .btn-event {
-            background: linear-gradient(45deg, #ff00cc, #333399);
-        }
-        
-        .nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.8);
+
+        .balance-header {
             display: flex;
-            padding: 10px;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-top: 1px solid rgba(0, 198, 255, 0.3);
-        }
-        
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            color: #a0a0ff;
-            border-radius: 12px;
-            transition: background 0.3s;
-        }
-        
-        .nav-item.active {
-            color: white;
-            background: rgba(0, 198, 255, 0.3);
-        }
-        
-        .nav-item i {
-            display: block;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .dev-btn {
-            background: rgba(255, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #a0a0ff;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .dev-btn:hover {
-            background: rgba(255, 0, 0, 0.3);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            margin-bottom: 15px;
         }
-        
-        .modal-content {
-            background: rgba(30, 30, 60, 0.95);
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 400px;
+
+        .balance-title {
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .token-name {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-top: 5px;
+        }
+
+        .buy-tokens-btn {
+            background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: var(--bg-dark);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 600;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .buy-tokens-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .nft-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
             position: relative;
         }
-        
-        .modal-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #00ff9d;
+
+        .nft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(212, 175, 55, 0.3);
         }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: #a0a0ff;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .close-modal:hover {
-            transform: rotate(90deg);
-        }
-        
-        .bug-report {
-            text-align: center;
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255, 0, 0, 0.1);
-            border-radius: 12px;
-        }
-        
-        .bug-report a {
-            color: #ff8a00;
-            text-decoration: none;
-        }
-        
-        .miner-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .detail-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .dev-tools {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .dev-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 10px;
-            padding: 12px;
-            color: white;
+
+        .nft-image {
             width: 100%;
+            aspect-ratio: 1/1;
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nft-image i {
+            font-size: 40px;
+            color: rgba(212, 175, 55, 0.2);
+        }
+
+        .nft-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gold);
+            color: var(--bg-dark);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
+        .nft-info {
+            padding: 12px;
+        }
+
+        .nft-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nft-id {
+            font-size: 12px;
+            color: var(--text-gray);
             margin-bottom: 10px;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes coins {
-            0% { transform: translateY(0) rotate(0); opacity: 1; }
-            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .highlight {
-            animation: pulse 2s infinite;
-        }
-        
-        .event-shop {
-            background: linear-gradient(45deg, #ff00cc, #333399);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        
-        .miner-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .miner-grid-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .miner-grid-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .miner-grid-name {
-            font-size: 14px;
-            margin: 5px 0;
-        }
-        
-        .miner-grid-count {
-            color: #00ff9d;
-            font-weight: bold;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        .coins-animation {
-            position: absolute;
-            font-size: 20px;
-            color: #ffd700;
-            pointer-events: none;
-            animation: coins 1s forwards;
-        }
-        
-        .achievement-list {
+
+        .nft-price {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 5px;
+            color: var(--gold);
+            font-weight: 600;
         }
-        
-        .achievement-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
+
+        .nft-price i {
+            font-size: 16px;
+        }
+
+        .profile-header {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 25px;
         }
-        
-        .achievement-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
+
+        .avatar-container {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar i {
+            font-size: 30px;
+            color: rgba(212, 175, 55, 0.3);
+        }
+
+        .level-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: var(--gold);
+            color: var(--bg-dark);
+            font-size: 12px;
+            font-weight: 700;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            border: 2px solid var(--bg-card);
         }
-        
-        .achievement-info {
+
+        .user-info {
             flex: 1;
         }
-        
-        .achievement-title {
-            font-weight: bold;
+
+        .user-name {
+            font-size: 22px;
+            font-weight: 700;
             margin-bottom: 5px;
         }
-        
-        .achievement-progress {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .achievement-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            border-radius: 5px;
-        }
-        
-        .achievement-reward {
-            background: rgba(0, 198, 255, 0.2);
-            padding: 5px 10px;
+
+        .user-title {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 14px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 14px;
+            display: inline-block;
         }
-        
-        .daily-bonus {
+
+        .profile-stats {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
         }
-        
-        .bonus-day {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .bonus-day.active {
-            background: rgba(0, 198, 255, 0.3);
-            box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
-        }
-        
-        .bonus-day.received {
-            background: rgba(0, 255, 157, 0.3);
-        }
-        
-        .bonus-day .day {
-            font-size: 14px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .bonus-day .reward {
-            font-weight: bold;
-            color: #ffd700;
-            margin: 5px 0;
-        }
-        
-        .bonus-today {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 0, 0, 0.5);
-            font-size: 10px;
-            padding: 2px;
-        }
-        
-        .bonus-btn {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            border: none;
-            border-radius: 5px;
-            color: white;
-            padding: 5px;
-            font-size: 12px;
-            margin-top: 5px;
-            cursor: pointer;
-        }
-        
-        .prefix-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .prefix-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
             padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
-        
-        .prefix-item:hover {
-            background: rgba(255, 255, 255, 0.15);
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 5px;
         }
-        
-        .prefix-item.active {
-            background: rgba(0, 198, 255, 0.3);
-            box-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
-        }
-        
-        .prefix-name {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            padding: 5px 10px;
-            border-radius: 20px;
+
+        .stat-label {
             font-size: 14px;
+            color: var(--text-gray);
         }
-        
-        .prefix-action {
-            background: rgba(0, 198, 255, 0.3);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .prefix-action:active {
-            background: rgba(0, 198, 255, 0.5);
-        }
-        
-        .welcome-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+
+        .owned-nfts-title {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .view-all {
+            color: var(--gold);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .nft-collection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .collection-item {
+            aspect-ratio: 1/1;
+            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
-            animation: welcomeOut 1s forwards 2s;
         }
-        
-        @keyframes welcomeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
+
+        .collection-item i {
+            color: rgba(212, 175, 55, 0.3);
+            font-size: 24px;
         }
-        
-        .welcome-title {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff8a00, #e52e71, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            color: var(--text-light);
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            max-width: 90%;
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .app-footer {
             text-align: center;
-            animation: bounce 1s infinite alternate;
-        }
-        
-        .welcome-subtitle {
-            font-size: 18px;
-            color: #a0a0ff;
-            text-align: center;
-            max-width: 80%;
-        }
-        
-        .logo {
-            font-size: 80px;
-            margin-bottom: 30px;
-            animation: bounce 1.5s infinite alternate;
-        }
-        
-        .event-shop-closed {
-            text-align: center;
-            padding: 40px 20px;
-            color: #a0a0ff;
-            font-size: 18px;
-        }
-        
-        .show-more-btn {
-            background: rgba(0, 198, 255, 0.2);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            padding: 10px;
-            margin-top: 15px;
-            width: 100%;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .show-more-btn:hover {
-            background: rgba(0, 198, 255, 0.3);
-        }
-        
-        .hidden-achievements {
-            display: none;
-        }
-        
-        .telegram-data {
+            padding: 20px 0;
+            color: var(--text-gray);
             font-size: 12px;
-            color: #a0a0ff;
-            margin-top: 5px;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px;
-            border-radius: 5px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        /* Анимации */
+        @keyframes shine {
+            0% { background-position: -100px; }
+            100% { background-position: 200px; }
+        }
+
+        .shine-effect {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shine 1.5s infinite;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 400px) {
+            .nft-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .app-logo h1 {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Приветственная анимация -->
-    <div class="welcome-animation">
-        <div class="logo">⛏️</div>
-        <h1 class="welcome-title">Bebra Miner</h1>
-        <p class="welcome-subtitle">Самый прибыльный майнинг в Telegram</p>
-    </div>
-    
-    <div class="container">
-        <!-- Шапка профиля -->
-        <div class="header">
-            <div class="avatar" id="user-avatar">
-                <img id="avatar-img" src="https://randomuser.me/api/portraits/men/41.jpg">
-                <div class="avatar-online"></div>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="app-logo">
+                <i class="fas fa-bolt"></i>
+                <h1>Thunder Market</h1>
             </div>
-            <div class="user-info">
-                <div class="user-name">
-                    <span id="username">Иван Иванов</span> 
-                    <span class="prefix" id="user-prefix">Новичок</span>
+            <div class="user-actions">
+                <div class="action-btn">
+                    <i class="fas fa-bell"></i>
                 </div>
-                <div class="user-id">
-                    <span>ID: <span id="user-id">789456</span></span>
-                    <span>@<span id="user-username">bebra_miner</span></span>
-                </div>
-                <div class="telegram-data" id="telegram-data">Данные из Telegram</div>
-            </div>
-            <div class="balance-container">
-                <div class="balance">
-                    <i class="fas fa-coins balance-icon coins"></i>
-                    <span id="coins-balance">0</span>
-                </div>
-                <div class="balance">
-                    <i class="fas fa-dollar-sign balance-icon bucks"></i>
-                    <span id="bucks-balance">0</span>
+                <div class="action-btn">
+                    <i class="fas fa-cog"></i>
                 </div>
             </div>
         </div>
-
-        <!-- Вкладки контента -->
-        <div class="tab-content active" id="profile-tab">
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Статистика</h2>
-                <div class="stats">
-                    <div class="stat-card" id="total-miners">
-                        <div class="stat-label">Всего майнеров</div>
-                        <div class="stat-value" id="miners-count">0</div>
-                        <div class="stat-label">нажми для деталей</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Заработок в минуту</div>
-                        <div class="stat-value" id="hashrate">0</div>
-                        <div class="stat-label">Bebra коинов</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hard-hat"></i> Активные майнеры</h2>
-                <div class="miners-list" id="active-miners-list">
-                    <!-- Активные майнеры будут здесь -->
-                </div>
-            </div>
+        
+        <div class="tabs">
+            <div class="tab-indicator" id="tabIndicator"></div>
+            <div class="tab active" data-tab="store">STORE</div>
+            <div class="tab" data-tab="profile">PROFILE</div>
         </div>
-
-        <div class="tab-content" id="miners-tab">
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-server"></i> Ваши майнеры</h2>
-                <div class="miners-list" id="user-miners-list">
-                    <!-- Майнеры пользователя будут здесь -->
+        
+        <div class="tab-content active" id="storeContent">
+            <div class="balance-card">
+                <div class="balance-info">
+                    <div class="balance-header">
+                        <div class="balance-title">Ваш баланс</div>
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="balance-amount">1,850</div>
+                    <div class="token-name">THUNDER TOKENS</div>
+                    <button class="buy-tokens-btn">
+                        <i class="fas fa-shopping-cart"></i> Купить токены
+                    </button>
                 </div>
             </div>
-        </div>
-
-        <div class="tab-content" id="shop-tab">
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Магазин</h2>
-                
-                <div class="shop-tabs">
-                    <div class="shop-tab active" data-tab="miners">Майнеры</div>
-                    <div class="shop-tab" data-tab="prefixes">Префиксы</div>
-                    <div class="shop-tab" data-tab="exchange">Обмен</div>
-                    <div class="shop-tab btn-event" data-tab="event">Ивентовый</div>
-                </div>
-                
-                <div class="shop-content active" id="miners-shop">
-                    <div class="miners-list" id="shop-miners-list">
-                        <!-- Майнеры в магазине будут здесь -->
+            
+            <h2 class="section-title">
+                <i class="fas fa-store"></i> Новые NFT
+            </h2>
+            
+            <div class="nft-grid">
+                <div class="nft-card">
+                    <div class="nft-image shine-effect">
+                        <i class="fas fa-crown"></i>
+                        <div class="nft-badge">NEW</div>
                     </div>
-                </div>
-                
-                <div class="shop-content" id="prefixes-shop">
-                    <div class="miners-list" id="prefixes-list">
-                        <!-- Префиксы в магазине будут здесь -->
-                    </div>
-                </div>
-                
-                <div class="shop-content" id="exchange-shop">
-                    <div class="exchange-rate">
-                        1 <i class="fas fa-coins coins"></i> = <span id="current-rate">0.85</span> <i class="fas fa-dollar-sign bucks"></i>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="exchange-chart"></canvas>
-                    </div>
-                    
-                    <div class="exchange-form">
-                        <div class="input-group">
-                            <input type="number" placeholder="Количество коинов" id="exchange-amount" min="0">
-                            <button id="max-coins">MAX</button>
+                    <div class="nft-info">
+                        <div class="nft-name">Золотая Корона</div>
+                        <div class="nft-id">ID: #TM001</div>
+                        <div class="nft-price">
+                            <i class="fas fa-coins"></i> 450
                         </div>
-                        <button class="btn btn-exchange-all" id="exchange-all">Обменять всё</button>
-                        <button class="btn" id="exchange-btn">Обменять</button>
                     </div>
                 </div>
                 
-                <div class="shop-content" id="event-shop">
-                    <div class="event-shop-closed" id="event-shop-closed">
-                        <i class="fas fa-lock" style="font-size: 48px; margin-bottom: 15px;"></i>
-                        <h3>Ивентовый магазин закрыт</h3>
-                        <p>Ожидайте специальных событий или используйте меню разработчика для активации</p>
+                <div class="nft-card">
+                    <div class="nft-image shine-effect">
+                        <i class="fas fa-gem"></i>
                     </div>
-                    <div class="miners-list" id="event-miners-list" style="display: none;">
-                        <!-- Ивентовые майнеры будут здесь -->
+                    <div class="nft-info">
+                        <div class="nft-name">Сияющий Алмаз</div>
+                        <div class="nft-id">ID: #TM002</div>
+                        <div class="nft-price">
+                            <i class="fas fa-coins"></i> 650
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nft-card">
+                    <div class="nft-image shine-effect">
+                        <i class="fas fa-dragon"></i>
+                        <div class="nft-badge">HOT</div>
+                    </div>
+                    <div class="nft-info">
+                        <div class="nft-name">Дракон Грома</div>
+                        <div class="nft-id">ID: #TM003</div>
+                        <div class="nft-price">
+                            <i class="fas fa-coins"></i> 850
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nft-card">
+                    <div class="nft-image shine-effect">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="nft-info">
+                        <div class="nft-name">Молния Зевса</div>
+                        <div class="nft-id">ID: #TM004</div>
+                        <div class="nft-price">
+                            <i class="fas fa-coins"></i> 750
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="tab-content" id="other-tab">
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-cog"></i> Другое</h2>
-                
-                <div class="section">
-                    <h2 class="section-title"><i class="fas fa-trophy"></i> Достижения</h2>
-                    <div class="achievement-list" id="achievements-list">
-                        <!-- Достижения будут здесь -->
+        
+        <div class="tab-content" id="profileContent">
+            <div class="profile-header">
+                <div class="avatar-container">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <button class="show-more-btn" id="show-more-achievements">Показать все достижения</button>
-                    <div class="achievement-list hidden-achievements" id="hidden-achievements-list">
-                        <!-- Скрытые достижения будут здесь -->
-                    </div>
+                    <div class="level-badge">27</div>
                 </div>
-                
-                <div class="section">
-                    <h2 class="section-title"><i class="fas fa-calendar-day"></i> Ежедневный бонус</h2>
-                    <div class="daily-bonus" id="daily-bonus">
-                        <!-- Ежедневные бонусы будут здесь -->
-                    </div>
-                </div>
-                
-                <div class="dev-btn" id="dev-btn">
-                    <i class="fas fa-lock"></i> Для разработчиков
+                <div class="user-info">
+                    <div class="user-name">Александр</div>
+                    <div class="user-title">Thunder Warrior</div>
                 </div>
             </div>
-        </div>
-
-        <div class="bug-report">
-            <p>Нашли баг? Сообщите нам!</p>
-            <a href="https://t.me/Pluh5" target="_blank">https://t.me/Pluh5</a>
-        </div>
-    </div>
-
-    <!-- Навигационное меню -->
-    <div class="nav">
-        <div class="nav-item active" data-tab="profile-tab">
-            <i class="fas fa-user"></i>
-            <span>Профиль</span>
-        </div>
-        <div class="nav-item" data-tab="miners-tab">
-            <i class="fas fa-server"></i>
-            <span>Майнеры</span>
-        </div>
-        <div class="nav-item" data-tab="shop-tab">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Магазин</span>
-        </div>
-        <div class="nav-item" data-tab="other-tab">
-            <i class="fas fa-ellipsis-h"></i>
-            <span>Другое</span>
-        </div>
-    </div>
-
-    <!-- Модальное окно разработчика -->
-    <div class="modal" id="dev-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title">Меню разработчика</h2>
             
-            <input type="password" class="dev-input" id="dev-code" placeholder="Введите код доступа">
-            
-            <div id="dev-tools" style="display: none;">
-                <div class="dev-tools">
-                    <button class="btn" id="add-coins">+ 100 Коинтов</button>
-                    <button class="btn" id="add-bucks">+ 100 Баксов</button>
-                    <button class="btn" id="remove-coins">- 100 Коинтов</button>
-                    <button class="btn" id="remove-bucks">- 100 Баксов</button>
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-value">27</div>
+                    <div class="stat-label">Уровень</div>
                 </div>
-                
-                <button class="btn" id="reset-game" style="margin-top: 10px; width: 100%;">
-                    Сбросить игру
-                </button>
-                
-                <button class="btn btn-event" id="event-shop" style="margin-top: 10px; width: 100%;">
-                    Открыть ивентовый магазин
-                </button>
-                
-                <button class="btn" id="close-event-shop" style="margin-top: 10px; width: 100%; background: linear-gradient(45deg, #ff0000, #990000); display: none;">
-                    Закрыть ивентовый магазин
-                </button>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">NFT</div>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Модальное окно деталей майнеров -->
-    <div class="modal" id="miners-details-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title">Ваши майнеры</h2>
             
-            <div class="miner-grid" id="miners-grid">
-                <!-- Детали майнеров будут здесь -->
+            <div class="balance-card">
+                <div class="balance-info">
+                    <div class="balance-header">
+                        <div class="balance-title">Ваш баланс</div>
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="balance-amount">1,850</div>
+                    <div class="token-name">THUNDER TOKENS</div>
+                    <button class="buy-tokens-btn">
+                        <i class="fas fa-shopping-cart"></i> Купить токены
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Модальное окно префиксов -->
-    <div class="modal" id="prefixes-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title">Ваши префиксы</h2>
             
-            <div class="prefix-list" id="prefixes-list-container">
-                <!-- Префиксы пользователя будут здесь -->
+            <div class="owned-nfts-title">
+                <h3 class="section-title">
+                    <i class="fas fa-layer-group"></i> Ваша коллекция
+                </h3>
+                <a href="#" class="view-all">Все</a>
+            </div>
+            
+            <div class="nft-collection">
+                <div class="collection-item">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="collection-item">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="collection-item">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <div class="collection-item">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="collection-item">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="collection-item">
+                    <i class="fas fa-feather-alt"></i>
+                </div>
             </div>
         </div>
+        
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i> NFT успешно куплен!
+        </div>
+        
+        <div class="app-footer">
+            Thunder Market © 2023 | Курс: 0.6₽ = 1 токен
+        </div>
     </div>
-    
-    <!-- Уведомление -->
-    <div class="notification" id="notification"></div>
 
     <script>
-        // Состояние игры
-        const gameState = {
-            userId: Math.floor(Math.random() * 1000000),
-            username: "Иван Иванов",
-            userUsername: "bebra_miner",
-            firstName: "Иван",
-            photoUrl: "https://randomuser.me/api/portraits/men/41.jpg",
-            balance: { coins: 0, bucks: 0 },
-            miners: [],
-            prefix: 'prefix1',
-            unlockedPrefixes: ['prefix1'],
-            hashrate: 0,
-            exchangeRate: 0.85,
-            exchangeHistory: [0.75, 0.78, 0.82, 0.80, 0.85, 0.83, 0.87],
-            shopMiners: [],
-            shopPrefixes: [],
-            eventMiners: [],
-            eventShopActive: false,
-            lastMiningTime: Date.now(),
-            lastShopUpdate: Date.now(),
-            lastExchangeUpdate: Date.now(),
-            achievements: [
-                { id: 'ach1', name: 'Первый майнер', description: 'Купите свой первый майнер', progress: 0, goal: 1, reward: 20, received: false },
-                { id: 'ach2', name: 'Начинающий майнер', description: 'Заработайте 100 коинов', progress: 0, goal: 100, reward: 100, received: false },
-                { id: 'ach3', name: 'Богач', description: 'Получите 500 баксов', progress: 0, goal: 500, reward: 200, received: false },
-                { id: 'ach4', name: 'Коллекционер', description: 'Купите 15 майнеров', progress: 0, goal: 15, reward: 300, received: false },
-                { id: 'ach5', name: 'Ветеран', description: 'Играйте 7 дней подряд', progress: 0, goal: 7, reward: 150, received: false }
-            ],
-            hiddenAchievements: [
-                { id: 'ach6', name: 'Крипто-магнат', description: 'Заработайте 10,000 коинов', progress: 0, goal: 10000, reward: 1000, received: false },
-                { id: 'ach7', name: 'Легенда майнинга', description: 'Иметь 5 легендарных майнеров', progress: 0, goal: 5, reward: 500, received: false },
-                { id: 'ach8', name: 'Миллионер', description: 'Заработайте 1,000,000 коинов', progress: 0, goal: 1000000, reward: 5000, received: false },
-                { id: 'ach9', name: 'Эксклюзивный владелец', description: 'Купите эксклюзивный майнер', progress: 0, goal: 1, reward: 2000, received: false },
-                { id: 'ach10', name: 'Ивентовый охотник', description: 'Купите 3 ивентовых майнера', progress: 0, goal: 3, reward: 1500, received: false }
-            ],
-            dailyBonuses: [
-                { day: 1, reward: 10, received: false },
-                { day: 2, reward: 20, received: false },
-                { day: 3, reward: 30, received: false },
-                { day: 4, reward: 40, received: false },
-                { day: 5, reward: 50, received: false },
-                { day: 6, reward: 75, received: false },
-                { day: 7, reward: 100, received: false }
-            ],
-            lastLogin: null,
-            consecutiveLogins: 0
-        };
+        // Переключение вкладок
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const tabIndicator = document.getElementById('tabIndicator');
         
-        // Каталог майнеров
-        const minersCatalog = [
-            { id: 'miner1', name: 'BebraPhone', power: 1.0, rarity: 'common', icon: 'fa-mobile-alt', price: 10 },
-            { id: 'miner2', name: 'BebraComp', power: 5.2, rarity: 'uncommon', icon: 'fa-desktop', price: 50 },
-            { id: 'miner3', name: 'BebraNet', power: 12.8, rarity: 'rare', icon: 'fa-network-wired', price: 120 },
-            { id: 'miner4', name: 'Сервер Bebra', power: 2.1, rarity: 'common', icon: 'fa-server', price: 15 },
-            { id: 'miner5', name: 'BebraQuantum', power: 25.0, rarity: 'epic', icon: 'fa-microchip', price: 300 },
-            { id: 'miner6', name: 'BebraSat', power: 15.5, rarity: 'rare', icon: 'fa-satellite', price: 150 },
-            { id: 'miner7', name: 'BebraCloud', power: 8.5, rarity: 'uncommon', icon: 'fa-cloud', price: 75 },
-            { id: 'miner8', name: 'BebraGold', power: 35.0, rarity: 'legendary', icon: 'fa-gem', price: 500 },
-            { id: 'miner9', name: 'BebraUltra', power: 45.0, rarity: 'mythical', icon: 'fa-bolt', price: 700 },
-            { id: 'miner10', name: 'BebraExclusive', power: 60.0, rarity: 'exclusive', icon: 'fa-crown', price: 1000 },
-            { id: 'miner11', name: 'BebraMini', power: 0.8, rarity: 'common', icon: 'fa-microchip', price: 8 },
-            { id: 'miner12', name: 'BebraPro', power: 18.0, rarity: 'rare', icon: 'fa-laptop', price: 180 },
-            { id: 'miner13', name: 'BebraMax', power: 32.0, rarity: 'epic', icon: 'fa-server', price: 350 },
-            { id: 'miner14', name: 'BebraNano', power: 0.5, rarity: 'common', icon: 'fa-microchip', price: 5 },
-            { id: 'miner15', name: 'BebraTitan', power: 55.0, rarity: 'legendary', icon: 'fa-database', price: 800 }
-        ];
-        
-        // Каталог ивентовых майнеров
-        const eventMinersCatalog = [
-            { id: 'event1', name: 'Bebra Lunar', power: 75.0, rarity: 'event', icon: 'fa-moon', price: 1500 },
-            { id: 'event2', name: 'Bebra Galaxy', power: 120.0, rarity: 'event', icon: 'fa-star', price: 3000 },
-            { id: 'event3', name: 'Bebra Nebula', power: 95.0, rarity: 'event', icon: 'fa-cloud-moon', price: 2000 },
-            { id: 'event4', name: 'Bebra Comet', power: 110.0, rarity: 'event', icon: 'fa-meteor', price: 2500 },
-            { id: 'event5', name: 'Bebra Infinity', power: 150.0, rarity: 'event', icon: 'fa-infinity', price: 5000 }
-        ];
-        
-        // Каталог префиксов
-        const prefixesCatalog = [
-            { id: 'prefix1', name: 'Новичок', price: 0 },
-            { id: 'prefix2', name: 'Шахтёр', price: 50 },
-            { id: 'prefix3', name: 'Богач', price: 100 },
-            { id: 'prefix4', name: 'КриптоКороль', price: 200 },
-            { id: 'prefix5', name: 'Магнат', price: 500 },
-            { id: 'prefix6', name: 'Легенда', price: 1000 },
-            { id: 'prefix7', name: 'Бог Майнинга', price: 5000 },
-            { id: 'prefix8', name: 'Космический Шахтёр', price: 10000 },
-            { id: 'prefix9', name: 'Повелитель Бебры', price: 50000 },
-            { id: 'prefix10', name: 'Император Коинов', price: 100000 }
-        ];
-        
-        // Инициализация приложения
-        document.addEventListener('DOMContentLoaded', function() {
-            // Загрузка состояния из localStorage
-            loadGameState();
-            
-            // Настройка пользователя
-            setupUser();
-            
-            // Инициализация магазина
-            updateShop();
-            
-            // Инициализация интерфейса
-            updateUI();
-            setupEventListeners();
-            
-            // Запуск игрового цикла
-            startGameLoop();
-            
-            // Проверка ежедневного бонуса
-            checkDailyBonus();
-            
-            // Обновление достижений
-            updateAchievements();
-            
-            // Инициализация Telegram WebApp
-            initTelegramWebApp();
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Убираем активный класс у всех вкладок и контента
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Добавляем активный класс текущей вкладке
+                tab.classList.add('active');
+                
+                // Показываем соответствующий контент
+                const tabName = tab.getAttribute('data-tab');
+                document.getElementById(`${tabName}Content`).classList.add('active');
+                
+                // Перемещаем индикатор
+                if (tab.getAttribute('data-tab') === 'store') {
+                    tabIndicator.style.transform = 'translateX(0)';
+                } else {
+                    tabIndicator.style.transform = 'translateX(100%)';
+                }
+            });
         });
         
-        // Инициализация Telegram WebApp
-        function initTelegramWebApp() {
-            // В реальном приложении здесь будет интеграция с Telegram WebApp API
-            // Для демонстрации используем случайные данные
-            const randomNames = ["Алексей Петров", "Дмитрий Иванов", "Сергей Сидоров", "Мария Николаева", "Екатерина Смирнова"];
-            const randomUsernames = ["alex_miner", "dima_crypto", "sergio_bebra", "mary_crypto", "kate_miner"];
-            const randomAvatars = [
-                "https://randomuser.me/api/portraits/men/32.jpg",
-                "https://randomuser.me/api/portraits/men/67.jpg",
-                "https://randomuser.me/api/portraits/women/44.jpg",
-                "https://randomuser.me/api/portraits/women/65.jpg",
-                "https://randomuser.me/api/portraits/men/22.jpg"
-            ];
-            
-            const randomIndex = Math.floor(Math.random() * randomNames.length);
-            
-            // Обновляем данные пользователя
-            gameState.username = randomNames[randomIndex];
-            gameState.userUsername = randomUsernames[randomIndex];
-            gameState.photoUrl = randomAvatars[randomIndex];
-            
-            // Обновляем интерфейс
-            document.getElementById('username').textContent = gameState.username;
-            document.getElementById('user-username').textContent = gameState.userUsername;
-            document.getElementById('avatar-img').src = gameState.photoUrl;
-            document.getElementById('telegram-data').textContent = "Данные из Telegram WebApp";
-        }
+        // Симуляция покупки NFT
+        const nftCards = document.querySelectorAll('.nft-card');
+        const notification = document.getElementById('notification');
         
-        // Загрузка состояния игры
-        function loadGameState() {
-            const savedState = localStorage.getItem('bebraMinerState');
-            if (savedState) {
-                const parsed = JSON.parse(savedState);
-                Object.assign(gameState, parsed);
+        nftCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Показываем уведомление
+                notification.classList.add('show');
                 
-                // Восстановление дат
-                gameState.lastMiningTime = new Date(gameState.lastMiningTime);
-                gameState.lastShopUpdate = new Date(gameState.lastShopUpdate);
-                gameState.lastExchangeUpdate = new Date(gameState.lastExchangeUpdate);
-                if (gameState.lastLogin) gameState.lastLogin = new Date(gameState.lastLogin);
-            } else {
-                // Начальные настройки для нового игрока
-                gameState.miners = [{ id: 'miner1', count: 1, active: true }];
-                gameState.prefix = 'prefix1';
-                gameState.unlockedPrefixes = ['prefix1'];
-                gameState.balance.bucks = 5; // Начальные баксы для первого майнера
-            }
-        }
-        
-        // Сохранение состояния игры
-        function saveGameState() {
-            localStorage.setItem('bebraMinerState', JSON.stringify(gameState));
-        }
-        
-        // Настройка пользователя
-        function setupUser() {
-            document.getElementById('username').textContent = gameState.username;
-            document.getElementById('user-id').textContent = gameState.userId;
-            document.getElementById('user-username').textContent = gameState.userUsername;
-            document.getElementById('avatar-img').src = gameState.photoUrl;
-            
-            // Установка префикса
-            const prefix = prefixesCatalog.find(p => p.id === gameState.prefix);
-            if (prefix) {
-                document.getElementById('user-prefix').textContent = prefix.name;
-            }
-        }
-        
-        // Обновление интерфейса
-        function updateUI() {
-            // Обновление баланса
-            document.getElementById('coins-balance').textContent = gameState.balance.coins.toFixed(2);
-            document.getElementById('bucks-balance').textContent = gameState.balance.bucks.toFixed(2);
-            
-            // Расчет хешрейта
-            calculateHashrate();
-            document.getElementById('hashrate').textContent = gameState.hashrate.toFixed(2);
-            
-            // Обновление количества майнеров
-            const totalMiners = gameState.miners.reduce((sum, miner) => sum + miner.count, 0);
-            document.getElementById('miners-count').textContent = totalMiners;
-            
-            // Обновление списка майнеров пользователя
-            updateUserMinersList();
-            
-            // Обновление активных майнеров
-            updateActiveMinersList();
-            
-            // Обновление магазина
-            updateShopUI();
-            
-            // Обновление ивентового магазина
-            updateEventShopUI();
-            
-            // Обновление курса
-            document.getElementById('current-rate').textContent = gameState.exchangeRate.toFixed(2);
-            
-            // Обновление графика
-            updateExchangeChart();
-            
-            // Обновление достижений
-            updateAchievementsUI();
-            
-            // Обновление ежедневных бонусов
-            updateDailyBonusesUI();
-        }
-        
-        // Расчет хешрейта
-        function calculateHashrate() {
-            gameState.hashrate = 0;
-            gameState.miners.forEach(miner => {
-                if (miner.active) {
-                    const minerData = [...minersCatalog, ...eventMinersCatalog].find(m => m.id === miner.id);
-                    if (minerData) {
-                        gameState.hashrate += miner.count * minerData.power;
-                    }
-                }
+                // Скрываем уведомление через 3 секунды
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
             });
-        }
+        });
         
-        // Обновление списка майнеров пользователя
-        function updateUserMinersList() {
-            const container = document.getElementById('user-miners-list');
-            container.innerHTML = '';
-            
-            gameState.miners.forEach(miner => {
-                const minerData = [...minersCatalog, ...eventMinersCatalog].find(m => m.id === miner.id);
-                if (minerData) {
-                    const card = createMinerCard(minerData, miner.count, miner.active);
-                    card.dataset.id = minerData.id;
-                    container.appendChild(card);
-                }
-            });
-        }
+        // Симуляция покупки токенов
+        const buyButtons = document.querySelectorAll('.buy-tokens-btn');
         
-        // Обновление списка активных майнеров
-        function updateActiveMinersList() {
-            const container = document.getElementById('active-miners-list');
-            container.innerHTML = '';
-            
-            const activeMiners = gameState.miners.filter(miner => miner.active);
-            
-            activeMiners.forEach(miner => {
-                const minerData = [...minersCatalog, ...eventMinersCatalog].find(m => m.id === miner.id);
-                if (minerData) {
-                    const card = createMinerCard(minerData, miner.count, true);
-                    container.appendChild(card);
-                }
-            });
-            
-            if (activeMiners.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #a0a0ff;">У вас нет активных майнеров</p>';
-            }
-        }
-        
-        // Создание карточки майнера
-        function createMinerCard(minerData, count, active) {
-            const card = document.createElement('div');
-            card.className = `miner-card ${minerData.rarity}`;
-            if (!active) card.classList.add('miner-inactive');
-            
-            card.innerHTML = `
-                <div class="miner-icon"><i class="fas ${minerData.icon}"></i></div>
-                <div class="miner-name">${minerData.name}</div>
-                <div class="miner-power">${minerData.power} коинов/мин</div>
-                <div class="miner-rarity">${getRarityName(minerData.rarity)}</div>
-                <div class="miner-count">${count}</div>
-            `;
-            
-            return card;
-        }
-        
-        // Обновление магазина
-        function updateShop() {
-            // Обновляем майнеры в магазине
-            gameState.shopMiners = [];
-            const availableMiners = [...minersCatalog];
-            
-            // Выбираем 6 случайных майнеров
-            for (let i = 0; i < 6; i++) {
-                if (availableMiners.length === 0) break;
-                const randomIndex = Math.floor(Math.random() * availableMiners.length);
-                gameState.shopMiners.push(availableMiners[randomIndex]);
-                availableMiners.splice(randomIndex, 1);
-            }
-            
-            // Обновляем префиксы в магазине
-            gameState.shopPrefixes = [];
-            const availablePrefixes = prefixesCatalog.filter(p => 
-                !gameState.unlockedPrefixes.includes(p.id) && p.id !== gameState.prefix
-            );
-            
-            // Выбираем 4 случайных префикса
-            for (let i = 0; i < 4; i++) {
-                if (availablePrefixes.length === 0) break;
-                const randomIndex = Math.floor(Math.random() * availablePrefixes.length);
-                gameState.shopPrefixes.push(availablePrefixes[randomIndex]);
-                availablePrefixes.splice(randomIndex, 1);
-            }
-            
-            gameState.lastShopUpdate = Date.now();
-        }
-        
-        // Обновление интерфейса магазина
-        function updateShopUI() {
-            // Майнеры в магазине
-            const minersContainer = document.getElementById('shop-miners-list');
-            minersContainer.innerHTML = '';
-            
-            gameState.shopMiners.forEach(miner => {
-                const card = document.createElement('div');
-                card.className = `miner-card ${miner.rarity}`;
-                
-                card.innerHTML = `
-                    <div class="miner-icon"><i class="fas ${miner.icon}"></i></div>
-                    <div class="miner-name">${miner.name}</div>
-                    <div class="miner-power">${miner.power} коинов/мин</div>
-                    <div class="miner-rarity">${getRarityName(miner.rarity)}</div>
-                    <div class="miner-price">${miner.price} <i class="fas fa-dollar-sign"></i></div>
-                    <button class="btn buy-miner-btn" data-id="${miner.id}" ${gameState.balance.bucks < miner.price ? 'disabled' : ''}>Купить</button>
-                `;
-                
-                minersContainer.appendChild(card);
-            });
-            
-            // Префиксы в магазине
-            const prefixesContainer = document.getElementById('prefixes-list');
-            prefixesContainer.innerHTML = '';
-            
-            gameState.shopPrefixes.forEach(prefix => {
-                const card = document.createElement('div');
-                card.className = 'stat-card';
-                
-                card.innerHTML = `
-                    <div class="prefix">${prefix.name}</div>
-                    <div class="stat-label">Префикс профиля</div>
-                    <div class="stat-value">${prefix.price} <i class="fas fa-dollar-sign bucks"></i></div>
-                    <button class="btn buy-prefix-btn" data-id="${prefix.id}" ${gameState.balance.bucks < prefix.price ? 'disabled' : ''}>Купить</button>
-                `;
-                
-                prefixesContainer.appendChild(card);
-            });
-        }
-        
-        // Обновление ивентового магазина
-        function updateEventShopUI() {
-            const eventShopClosed = document.getElementById('event-shop-closed');
-            const eventMinersList = document.getElementById('event-miners-list');
-            
-            if (gameState.eventShopActive) {
-                eventShopClosed.style.display = 'none';
-                eventMinersList.style.display = 'grid';
-                
-                eventMinersList.innerHTML = '';
-                
-                eventMinersCatalog.forEach(miner => {
-                    const card = document.createElement('div');
-                    card.className = `miner-card ${miner.rarity}`;
-                    
-                    card.innerHTML = `
-                        <div class="miner-icon"><i class="fas ${miner.icon}"></i></div>
-                        <div class="miner-name">${miner.name}</div>
-                        <div class="miner-power">${miner.power} коинов/мин</div>
-                        <div class="miner-rarity">${getRarityName(miner.rarity)}</div>
-                        <div class="miner-price">${miner.price} <i class="fas fa-dollar-sign"></i></div>
-                        <button class="btn buy-miner-btn" data-id="${miner.id}" ${gameState.balance.bucks < miner.price ? 'disabled' : ''}>Купить</button>
-                    `;
-                    
-                    eventMinersList.appendChild(card);
-                });
-            } else {
-                eventShopClosed.style.display = 'block';
-                eventMinersList.style.display = 'none';
-            }
-        }
-        
-        // Получение названия редкости
-        function getRarityName(rarity) {
-            const names = {
-                'common': 'Обычная',
-                'uncommon': 'Необычная',
-                'rare': 'Редкая',
-                'epic': 'Эпическая',
-                'legendary': 'Легендарная',
-                'mythical': 'Мифическая',
-                'exclusive': 'Эксклюзивная',
-                'event': 'Ивентовая'
-            };
-            return names[rarity] || rarity;
-        }
-        
-        // Обновление графика курса
-        function updateExchangeChart() {
-            const ctx = document.getElementById('exchange-chart').getContext('2d');
-            
-            if (window.exchangeChart) {
-                window.exchangeChart.destroy();
-            }
-            
-            window.exchangeChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: gameState.exchangeHistory.map((_, i) => `${i+1} мин`),
-                    datasets: [{
-                        label: 'Курс BebraCoin',
-                        data: gameState.exchangeHistory,
-                        borderColor: '#00ff9d',
-                        backgroundColor: 'rgba(0, 255, 157, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Покупка майнера
-        function buyMiner(minerId) {
-            const miner = [...minersCatalog, ...eventMinersCatalog].find(m => m.id === minerId);
-            if (!miner) return;
-            
-            if (gameState.balance.bucks < miner.price) {
-                showNotification('Недостаточно Bebra Баксов!');
-                return;
-            }
-            
-            // Вычитаем стоимость
-            gameState.balance.bucks -= miner.price;
-            
-            // Добавляем майнер
-            const existingMiner = gameState.miners.find(m => m.id === minerId);
-            if (existingMiner) {
-                existingMiner.count++;
-            } else {
-                gameState.miners.push({ id: minerId, count: 1, active: true });
-            }
-            
-            // Анимация покупки
-            createCoinsAnimation(miner.price, 'bucks');
-            
-            showNotification(`Куплен майнер: ${miner.name}!`);
-            saveGameState();
-            updateUI();
-            updateAchievements();
-        }
-        
-        // Покупка префикса
-        function buyPrefix(prefixId) {
-            const prefix = prefixesCatalog.find(p => p.id === prefixId);
-            if (!prefix) return;
-            
-            // Проверка, что префикс еще не куплен
-            if (gameState.unlockedPrefixes.includes(prefixId)) {
-                showNotification('Вы уже купили этот префикс!');
-                return;
-            }
-            
-            if (gameState.balance.bucks < prefix.price) {
-                showNotification('Недостаточно Bebra Баксов!');
-                return;
-            }
-            
-            // Вычитаем стоимость
-            gameState.balance.bucks -= prefix.price;
-            
-            // Добавляем префикс
-            gameState.unlockedPrefixes.push(prefixId);
-            
-            // Анимация покупки
-            createCoinsAnimation(prefix.price, 'bucks');
-            
-            showNotification(`Куплен префикс: ${prefix.name}!`);
-            saveGameState();
-            updateUI();
-        }
-        
-        // Обмен коинов на баксы
-        function exchangeCoins(amount) {
-            if (amount <= 0) {
-                showNotification('Введите корректную сумму!');
-                return;
-            }
-            
-            if (gameState.balance.coins < amount) {
-                showNotification('Недостаточно Bebra коинов!');
-                return;
-            }
-            
-            const bucks = amount * gameState.exchangeRate;
-            
-            gameState.balance.coins -= amount;
-            gameState.balance.bucks += bucks;
-            
-            // Анимация обмена
-            createCoinsAnimation(amount, 'coins');
-            createCoinsAnimation(bucks, 'bucks', true);
-            
-            showNotification(`Обменено ${amount.toFixed(2)} коинов на ${bucks.toFixed(2)} баксов!`);
-            saveGameState();
-            updateUI();
-            updateAchievements();
-        }
-        
-        // Переключение активности майнера
-        function toggleMiner(minerId) {
-            const miner = gameState.miners.find(m => m.id === minerId);
-            if (miner) {
-                miner.active = !miner.active;
-                saveGameState();
-                updateUI();
-                showNotification(miner.active ? 
-                    `Майнер активирован!` : 
-                    `Майнер деактивирован!`);
-            }
-        }
-        
-        // Показать детали майнеров
-        function showMinersDetails() {
-            const container = document.getElementById('miners-grid');
-            container.innerHTML = '';
-            
-            gameState.miners.forEach(miner => {
-                const minerData = [...minersCatalog, ...eventMinersCatalog].find(m => m.id === miner.id);
-                if (minerData) {
-                    const item = document.createElement('div');
-                    item.className = 'miner-grid-item';
-                    
-                    item.innerHTML = `
-                        <div><i class="fas ${minerData.icon}"></i></div>
-                        <div class="miner-grid-name">${minerData.name}</div>
-                        <div class="miner-grid-count">${miner.count} шт.</div>
-                        <div>${minerData.power} коин/мин</div>
-                        <div><small>${getRarityName(minerData.rarity)}</small></div>
-                    `;
-                    
-                    container.appendChild(item);
-                }
-            });
-            
-            document.getElementById('miners-details-modal').style.display = 'flex';
-        }
-        
-        // Показать префиксы
-        function showPrefixes() {
-            const container = document.getElementById('prefixes-list-container');
-            container.innerHTML = '';
-            
-            prefixesCatalog.forEach(prefix => {
-                if (gameState.unlockedPrefixes.includes(prefix.id)) {
-                    const item = document.createElement('div');
-                    item.className = 'prefix-item';
-                    if (gameState.prefix === prefix.id) item.classList.add('active');
-                    
-                    item.innerHTML = `
-                        <div class="prefix-name">${prefix.name}</div>
-                        <button class="prefix-action" data-id="${prefix.id}">
-                            ${gameState.prefix === prefix.id ? 'Активен' : 'Выбрать'}
-                        </button>
-                    `;
-                    
-                    container.appendChild(item);
-                }
-            });
-            
-            document.getElementById('prefixes-modal').style.display = 'flex';
-        }
-        
-        // Выбор префикса
-        function selectPrefix(prefixId) {
-            if (gameState.unlockedPrefixes.includes(prefixId)) {
-                gameState.prefix = prefixId;
-                saveGameState();
-                updateUI();
-                showNotification(`Префикс изменен!`);
-                document.getElementById('prefixes-modal').style.display = 'none';
-            }
-        }
-        
-        // Проверка ежедневного бонуса
-        function checkDailyBonus() {
-            const today = new Date().toDateString();
-            
-            // Если игрок зашел впервые
-            if (!gameState.lastLogin) {
-                gameState.lastLogin = new Date();
-                gameState.consecutiveLogins = 1;
-                giveDailyBonus(0); // Даем бонус за первый день
-                return;
-            }
-            
-            const lastLoginDate = new Date(gameState.lastLogin).toDateString();
-            
-            // Если игрок зашел сегодня
-            if (today === lastLoginDate) return;
-            
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            yesterday.setHours(0, 0, 0, 0);
-            
-            // Если игрок зашел вчера, увеличиваем счетчик
-            if (new Date(gameState.lastLogin).getTime() === yesterday.getTime()) {
-                gameState.consecutiveLogins++;
-            } else {
-                // Если пропустил день, сбрасываем счетчик
-                gameState.consecutiveLogins = 1;
-            }
-            
-            // Определяем день для бонуса (циклически)
-            const bonusDay = (gameState.consecutiveLogins - 1) % 7;
-            
-            gameState.lastLogin = new Date();
-            saveGameState();
-        }
-        
-        // Получение ежедневного бонуса
-        function claimDailyBonus(dayIndex) {
-            if (dayIndex < 0 || dayIndex > 6) return;
-            
-            const bonus = gameState.dailyBonuses[dayIndex];
-            if (bonus && !bonus.received) {
-                bonus.received = true;
-                gameState.balance.bucks += bonus.reward;
-                showNotification(`Ежедневный бонус: +${bonus.reward} баксов!`);
-                createCoinsAnimation(bonus.reward, 'bucks', true);
-                saveGameState();
-                updateUI();
-            }
-        }
-        
-        // Обновление достижений
-        function updateAchievements() {
-            // Обновляем прогресс достижений
-            gameState.achievements.forEach(ach => {
-                if (ach.received) return;
-                
-                switch(ach.id) {
-                    case 'ach1': // Первый майнер
-                        ach.progress = gameState.miners.length > 0 ? 1 : 0;
-                        break;
-                    case 'ach2': // Заработать 100 коинов
-                        ach.progress = Math.min(ach.goal, gameState.balance.coins);
-                        break;
-                    case 'ach3': // Получить 500 баксов
-                        ach.progress = Math.min(ach.goal, gameState.balance.bucks);
-                        break;
-                    case 'ach4': // Купить 15 майнеров
-                        ach.progress = Math.min(ach.goal, gameState.miners.reduce((sum, miner) => sum + miner.count, 0));
-                        break;
-                    case 'ach5': // Играть 7 дней подряд
-                        ach.progress = Math.min(ach.goal, gameState.consecutiveLogins);
-                        break;
-                }
-                
-                // Проверяем, достигнуто ли достижение
-                if (ach.progress >= ach.goal && !ach.received) {
-                    ach.received = true;
-                    gameState.balance.bucks += ach.reward;
-                    showNotification(`Достижение "${ach.name}" получено! Награда: ${ach.reward} баксов`);
-                }
-            });
-            
-            // Обновляем скрытые достижения
-            gameState.hiddenAchievements.forEach(ach => {
-                if (ach.received) return;
-                
-                switch(ach.id) {
-                    case 'ach6': // Заработать 10,000 коинов
-                        ach.progress = Math.min(ach.goal, gameState.balance.coins);
-                        break;
-                    case 'ach7': // Иметь 5 легендарных майнеров
-                        ach.progress = gameState.miners.filter(m => {
-                            const minerData = [...minersCatalog, ...eventMinersCatalog].find(md => md.id === m.id);
-                            return minerData && minerData.rarity === 'legendary';
-                        }).length;
-                        break;
-                    case 'ach8': // Заработать 1,000,000 коинов
-                        ach.progress = Math.min(ach.goal, gameState.balance.coins);
-                        break;
-                    case 'ach9': // Купить эксклюзивный майнер
-                        ach.progress = gameState.miners.filter(m => {
-                            const minerData = [...minersCatalog, ...eventMinersCatalog].find(md => md.id === m.id);
-                            return minerData && minerData.rarity === 'exclusive';
-                        }).length;
-                        break;
-                    case 'ach10': // Купить 3 ивентовых майнера
-                        ach.progress = gameState.miners.filter(m => {
-                            const minerData = [...minersCatalog, ...eventMinersCatalog].find(md => md.id === m.id);
-                            return minerData && minerData.rarity === 'event';
-                        }).length;
-                        break;
-                }
-                
-                // Проверяем, достигнуто ли достижение
-                if (ach.progress >= ach.goal && !ach.received) {
-                    ach.received = true;
-                    gameState.balance.bucks += ach.reward;
-                    showNotification(`Секретное достижение "${ach.name}" получено! Награда: ${ach.reward} баксов`);
-                }
-            });
-            
-            saveGameState();
-        }
-        
-        // Обновление интерфейса достижений
-        function updateAchievementsUI() {
-            const container = document.getElementById('achievements-list');
-            container.innerHTML = '';
-            
-            gameState.achievements.forEach(ach => {
-                const card = document.createElement('div');
-                card.className = 'achievement-card';
-                
-                const progressPercent = (ach.progress / ach.goal) * 100;
-                
-                card.innerHTML = `
-                    <div class="achievement-icon">
-                        <i class="fas ${ach.received ? 'fa-trophy' : 'fa-star'}"></i>
-                    </div>
-                    <div class="achievement-info">
-                        <div class="achievement-title">${ach.name}</div>
-                        <div class="achievement-description">${ach.description}</div>
-                        <div class="achievement-progress">
-                            <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
-                        </div>
-                        <div>${ach.progress} / ${ach.goal}</div>
-                    </div>
-                    <div class="achievement-reward">
-                        +${ach.reward} <i class="fas fa-dollar-sign"></i>
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
-            
-            // Обновление скрытых достижений
-            const hiddenContainer = document.getElementById('hidden-achievements-list');
-            hiddenContainer.innerHTML = '';
-            
-            gameState.hiddenAchievements.forEach(ach => {
-                const card = document.createElement('div');
-                card.className = 'achievement-card';
-                
-                const progressPercent = (ach.progress / ach.goal) * 100;
-                
-                card.innerHTML = `
-                    <div class="achievement-icon">
-                        <i class="fas ${ach.received ? 'fa-trophy' : 'fa-lock'}"></i>
-                    </div>
-                    <div class="achievement-info">
-                        <div class="achievement-title">${ach.name}</div>
-                        <div class="achievement-description">${ach.description}</div>
-                        <div class="achievement-progress">
-                            <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
-                        </div>
-                        <div>${ach.progress} / ${ach.goal}</div>
-                    </div>
-                    <div class="achievement-reward">
-                        +${ach.reward} <i class="fas fa-dollar-sign"></i>
-                    </div>
-                `;
-                
-                hiddenContainer.appendChild(card);
-            });
-        }
-        
-        // Обновление интерфейса ежедневных бонусов
-        function updateDailyBonusesUI() {
-            const container = document.getElementById('daily-bonus');
-            container.innerHTML = '';
-            
-            const today = new Date().toDateString();
-            const lastLoginDate = gameState.lastLogin ? new Date(gameState.lastLogin).toDateString() : null;
-            const todayIndex = (gameState.consecutiveLogins - 1) % 7;
-            
-            gameState.dailyBonuses.forEach((bonus, index) => {
-                const day = document.createElement('div');
-                day.className = 'bonus-day';
-                
-                if (bonus.received) day.classList.add('received');
-                if (index === todayIndex && today === lastLoginDate) day.classList.add('active');
-                
-                const canClaim = index === todayIndex && today === lastLoginDate && !bonus.received;
-                
-                day.innerHTML = `
-                    <div class="day">День ${bonus.day}</div>
-                    <div class="reward">+${bonus.reward} <i class="fas fa-dollar-sign"></i></div>
-                    ${canClaim ? '<button class="bonus-btn">Получить</button>' : ''}
-                    ${index === todayIndex && today === lastLoginDate ? '<div class="bonus-today">Сегодня</div>' : ''}
-                `;
-                
-                if (canClaim) {
-                    day.querySelector('.bonus-btn').addEventListener('click', () => claimDailyBonus(index));
-                }
-                
-                container.appendChild(day);
-            });
-        }
-        
-        // Создание анимации монет
-        function createCoinsAnimation(amount, type, isPositive = true) {
-            const container = document.querySelector('.container');
-            const coinsCount = Math.min(10, Math.floor(amount / 10));
-            
-            for (let i = 0; i < coinsCount; i++) {
-                const coin = document.createElement('div');
-                coin.className = 'coins-animation';
-                coin.innerHTML = `<i class="fas ${type === 'coins' ? 'fa-coins' : 'fa-dollar-sign'}"></i>`;
-                coin.style.left = `${Math.random() * 100}%`;
-                coin.style.top = `${Math.random() * 100}%`;
-                coin.style.opacity = '1';
-                coin.style.fontSize = `${Math.random() * 10 + 15}px`;
-                coin.style.color = type === 'coins' ? '#ffd700' : '#00ff9d';
-                coin.style.animation = `coins ${Math.random() * 0.5 + 0.5}s forwards`;
-                
-                container.appendChild(coin);
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                notification.querySelector('i').className = 'fas fa-shopping-cart';
+                notification.innerHTML = '<i class="fas fa-shopping-cart"></i> Открывается страница покупки токенов...';
+                notification.classList.add('show');
                 
                 setTimeout(() => {
-                    coin.remove();
-                }, 1000);
-            }
+                    notification.classList.remove('show');
+                }, 3000);
+            });
+        });
+        
+        // Система уровней и титулов
+        const userTitle = document.querySelector('.user-title');
+        const levelBadge = document.querySelector('.level-badge');
+        const levelValue = document.querySelector('.stat-value');
+        
+        function updateUserTitle(level) {
+            let title = '';
+            
+            if (level < 5) title = 'Thunder Novice';
+            else if (level < 10) title = 'Thunder Explorer';
+            else if (level < 20) title = 'Thunder Warrior';
+            else if (level < 30) title = 'Thunder Master';
+            else if (level < 40) title = 'Thunder Lord';
+            else if (level < 50) title = 'Thunder King';
+            else title = 'THUNDER GOD';
+            
+            userTitle.textContent = title;
+            levelBadge.textContent = level;
+            levelValue.textContent = level;
         }
         
-        // Настройка обработчиков событий
-        function setupEventListeners() {
-            // Переключение вкладок
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    document.querySelectorAll('.tab-content').forEach(tab => {
-                        tab.classList.remove('active');
-                    });
-                    
-                    const tabId = this.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Переключение вкладок магазина
-            const shopTabs = document.querySelectorAll('.shop-tab');
-            shopTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    shopTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    document.querySelectorAll('.shop-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    const tabType = this.getAttribute('data-tab');
-                    document.getElementById(`${tabType}-shop`).classList.add('active');
-                });
-            });
-            
-            // Модальные окна
-            const closeModals = document.querySelectorAll('.close-modal');
-            closeModals.forEach(close => {
-                close.addEventListener('click', function() {
-                    document.querySelectorAll('.modal').forEach(modal => {
-                        modal.style.display = 'none';
-                    });
-                });
-            });
-            
-            // Клик по префиксу в профиле
-            document.getElementById('user-prefix').addEventListener('click', showPrefixes);
-            
-            // Инструменты разработчика
-            setupDevTools();
-            
-            // Покупка майнеров
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('buy-miner-btn')) {
-                    const minerId = e.target.dataset.id;
-                    buyMiner(minerId);
-                }
-                
-                if (e.target.classList.contains('buy-prefix-btn')) {
-                    const prefixId = e.target.dataset.id;
-                    buyPrefix(prefixId);
-                }
-                
-                if (e.target.classList.contains('prefix-action')) {
-                    const prefixId = e.target.dataset.id;
-                    selectPrefix(prefixId);
-                }
-            });
-            
-            // Переключение активности майнера
-            document.getElementById('user-miners-list').addEventListener('click', function(e) {
-                const minerCard = e.target.closest('.miner-card');
-                if (minerCard) {
-                    const minerId = minerCard.dataset.id;
-                    toggleMiner(minerId);
-                }
-            });
-            
-            // Обмен коинов
-            document.getElementById('max-coins').addEventListener('click', function() {
-                document.getElementById('exchange-amount').value = gameState.balance.coins.toFixed(2);
-            });
-            
-            document.getElementById('exchange-all').addEventListener('click', function() {
-                exchangeCoins(gameState.balance.coins);
-            });
-            
-            document.getElementById('exchange-btn').addEventListener('click', function() {
-                const amount = parseFloat(document.getElementById('exchange-amount').value);
-                if (!isNaN(amount)) {
-                    exchangeCoins(amount);
-                }
-            });
-            
-            // Показать детали майнеров
-            document.getElementById('total-miners').addEventListener('click', showMinersDetails);
-            
-            // Показать все достижения
-            document.getElementById('show-more-achievements').addEventListener('click', function() {
-                const hidden = document.getElementById('hidden-achievements-list');
-                if (hidden.style.display === 'none') {
-                    hidden.style.display = 'flex';
-                    this.textContent = 'Скрыть достижения';
-                } else {
-                    hidden.style.display = 'none';
-                    this.textContent = 'Показать все достижения';
-                }
-            });
-        }
+        // Инициализация
+        updateUserTitle(27);
         
-        // Настройка инструментов разработчика
-        function setupDevTools() {
-            const devModal = document.getElementById('dev-modal');
-            const devBtn = document.getElementById('dev-btn');
-            const devCodeInput = document.getElementById('dev-code');
-            const devTools = document.getElementById('dev-tools');
-            
-            devBtn.addEventListener('click', function() {
-                devModal.style.display = 'flex';
+        // Анимация shine effect
+        const shineElements = document.querySelectorAll('.shine-effect');
+        shineElements.forEach(el => {
+            el.addEventListener('animationiteration', () => {
+                // Перезапуск анимации для непрерывного эффекта
+                el.style.animation = 'none';
+                setTimeout(() => {
+                    el.style.animation = 'shine 1.5s infinite';
+                }, 10);
             });
-            
-            // Проверка кода разработчика
-            devCodeInput.addEventListener('input', function() {
-                if (this.value === 'BebraDev') {
-                    devTools.style.display = 'block';
-                } else {
-                    devTools.style.display = 'none';
-                }
-            });
-            
-            // Инструменты разработчика
-            document.getElementById('add-coins').addEventListener('click', function() {
-                gameState.balance.coins += 100;
-                saveGameState();
-                updateUI();
-                showNotification('+100 коинов!');
-                createCoinsAnimation(100, 'coins', true);
-            });
-            
-            document.getElementById('add-bucks').addEventListener('click', function() {
-                gameState.balance.bucks += 100;
-                saveGameState();
-                updateUI();
-                showNotification('+100 баксов!');
-                createCoinsAnimation(100, 'bucks', true);
-            });
-            
-            document.getElementById('remove-coins').addEventListener('click', function() {
-                gameState.balance.coins = Math.max(0, gameState.balance.coins - 100);
-                saveGameState();
-                updateUI();
-                showNotification('-100 коинов!');
-            });
-            
-            document.getElementById('remove-bucks').addEventListener('click', function() {
-                gameState.balance.bucks = Math.max(0, gameState.balance.bucks - 100);
-                saveGameState();
-                updateUI();
-                showNotification('-100 баксов!');
-            });
-            
-            document.getElementById('reset-game').addEventListener('click', function() {
-                if (confirm('Вы уверены, что хотите сбросить игру? Все данные будут потеряны.')) {
-                    localStorage.removeItem('bebraMinerState');
-                    location.reload();
-                }
-            });
-            
-            document.getElementById('event-shop').addEventListener('click', function() {
-                gameState.eventShopActive = true;
-                showNotification('Ивентовый магазин открыт для всех пользователей!');
-                saveGameState();
-                updateEventShopUI();
-            });
-            
-            document.getElementById('close-event-shop').addEventListener('click', function() {
-                gameState.eventShopActive = false;
-                showNotification('Ивентовый магазин закрыт!');
-                saveGameState();
-                updateEventShopUI();
-            });
-        }
-        
-        // Запуск игрового цикла
-        function startGameLoop() {
-            setInterval(() => {
-                // Начисление коинов
-                const now = Date.now();
-                const minutesPassed = (now - gameState.lastMiningTime) / (60 * 1000);
-                
-                if (minutesPassed >= 1) {
-                    const coinsEarned = gameState.hashrate * minutesPassed;
-                    gameState.balance.coins += coinsEarned;
-                    gameState.lastMiningTime = now;
-                    
-                    if (coinsEarned > 0) {
-                        showNotification(`+${coinsEarned.toFixed(2)} коинов за ${minutesPassed.toFixed(1)} мин!`);
-                        createCoinsAnimation(coinsEarned, 'coins', true);
-                    }
-                    
-                    saveGameState();
-                    updateUI();
-                    updateAchievements();
-                }
-                
-                // Обновление магазина
-                const shopMinutesPassed = (now - gameState.lastShopUpdate) / (60 * 1000);
-                if (shopMinutesPassed >= 1) {
-                    updateShop();
-                    updateShopUI();
-                    showNotification('Магазин обновлен!');
-                }
-                
-                // Обновление курса
-                const exchangeMinutesPassed = (now - gameState.lastExchangeUpdate) / (60 * 1000);
-                if (exchangeMinutesPassed >= 1) {
-                    // Изменение курса случайным образом
-                    const change = (Math.random() * 0.1) - 0.05;
-                    gameState.exchangeRate = Math.max(0.5, Math.min(1.5, gameState.exchangeRate + change));
-                    
-                    // Добавление в историю
-                    gameState.exchangeHistory.push(gameState.exchangeRate);
-                    if (gameState.exchangeHistory.length > 10) {
-                        gameState.exchangeHistory.shift();
-                    }
-                    
-                    gameState.lastExchangeUpdate = now;
-                    updateUI();
-                }
-                
-            }, 1000); // Проверка каждую секунду
-        }
-        
-        // Показать уведомление
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
+        });
     </script>
 </body>
 </html>
